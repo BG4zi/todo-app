@@ -17,6 +17,7 @@ Requirements
 
 Installation
 ------
+* Base Installation
 ```bash
 git clone https://github.com/BG4zi/todo-app.git
 cd todo-app/server
@@ -31,8 +32,14 @@ npm install
 npm start
 ```
 
+* DB SETUP
+### There is going to be a table which name is tasks and it is going to have 3 columns id(autofill), title(char), is_done(boolean).
+
+
 Status Of This Project
 ------
 I learned a lot of things about db management and sqli(but this project is really vulnerable in terms of sql injection right now)
-For now, I just wrote the back-end cursory.
-So for now thats enough, following days I'll progress to develop this project.
+For now, I just wrote the entire app cursory.
+So thats enough, following days I'll progress to develop this project and make this project prevented from sqli.
+
+* I got the design from this site -> https://codepen.io/mostafa_abdallah/pen/wvjgQEE
