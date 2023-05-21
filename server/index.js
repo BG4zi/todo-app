@@ -1,4 +1,4 @@
-//TODO:: pretendation from sqli.
+//TODO:: prevention for sqli.
 //TODO:: regex stuffs for json datums and dynamic routes.
 
 import express  from 'express'
@@ -15,6 +15,13 @@ app.use(express.urlencoded({
 }))
 app.use(express.json())
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "localhost:3000") // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+    next()
+  })
+  
+
 app.get('/', (req, res) => {
     res.send("Hello!")
 })
@@ -22,12 +29,20 @@ app.get('/', (req, res) => {
 app.get('/tasks', (req, res) => {
     query_prompt('SELECT * FROM tasks;')
         .then((result) => {
-            res.send(result)
+            res.json(result)
         })
 })
 
 app.get('/tasks/:id', (req, res) => {
     query_prompt(`SELECT * FROM tasks WHERE id=${req.params.id};`)
+        .then((result) =>{
+            res.send(result)
+        })
+})
+
+
+app.put('/tasks/:id', (req, res) => {
+    query_prompt(`UPDATE tasks SET title = '${req.body.title}', is_done = ${req.body.is_done} WHERE id = ${req.params.id};`)
         .then((result) =>{
             res.send(result)
         })
@@ -50,6 +65,13 @@ app.delete('/tasks/:id', (req, res) => {
     query_prompt(`DELETE FROM tasks WHERE id=${req.params.id};`)
         .then((result)=>{
             res.send(`Task ${req.params.id} deleted successfully`)
+        })
+})
+
+app.delete('/tasks', (req, res) => {
+    query_prompt(`DELETE FROM tasks;`)
+        .then((result)=>{
+            res.send(`All Tasks deleted successfully`)
         })
 })
 
